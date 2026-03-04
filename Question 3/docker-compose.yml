@@ -1,0 +1,12 @@
+services:
+  sql-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nectari-mssql
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd!
+    restart: always

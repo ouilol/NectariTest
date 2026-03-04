@@ -1,0 +1,38 @@
+---
+name: Create and Publish
+
+on:
+  workflow_dispatch:
+
+# need that for write package with token
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io 
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}} #**************** more secure and , as i understand its temporary token
+          #username: ouilol
+          #password: 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
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          # make a copy to be able to revert ... dont like github.sha too long but ...... it contain the commit change number
+          tags: |
+            ghcr.io/ouilol/nectati4/mssql:2019-latest
+            ghcr.io/ouilol/nectari4/mssql:2019-${{ github.run_number }}
