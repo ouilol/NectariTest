@@ -24,7 +24,7 @@ jobs:
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}} #**************** more secure and , as i understand its temporary token
           #username: ouilol
-          #password: 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
+          #password: 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 ******** NOTE: Token is deleated ***********
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
